@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+
 from contextlib import contextmanager
 from typing import Iterable, Any, Optional, Tuple
 
@@ -530,5 +532,6 @@ with tab_manual:
                     )
 
                 conn.commit()
+
 
             st.success("Entries applied. Switch to the other tabs to see updated Trial Balance, Balance Sheet, and Income Statement.")
