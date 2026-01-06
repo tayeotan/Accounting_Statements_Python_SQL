@@ -7,9 +7,7 @@ from typing import Iterable, Any, Optional, Tuple
 # SQLite engine used by Gradio / Hugging Face
 ENGINE = sqlalchemy.create_engine("sqlite:///accounting.db", future=True)
 
-# ------------------------------------------------------------------
-# DB connection via SQLite (file-based, works on Hugging Face)
-# ------------------------------------------------------------------
+# DB connection via SQLite
 
 def fetch_df(sql: str, params=None) -> pd.DataFrame:
     with ENGINE.connect() as conn:
@@ -26,9 +24,7 @@ def execute_non_query(sql: str, params: Optional[Iterable[Any]] = None) -> int:
         result = conn.execute(text(sql), params or {})
         return result.rowcount
 
-# ======================================================================================
-# ACCOUNTING SQL QUERIES (YOUR LOGIC)
-# ======================================================================================
+# ACCOUNTING SQL QUERIES
 
 SQL_SEED_DATA = """
 -- Clear data (respect FK from journal_entries to accounts)
@@ -249,8 +245,6 @@ SELECT
     total_revenue - total_expense AS net_income
 FROM totals;
 """
-
-# Helpers wrapping SQL into Python functions
 
 def seed_data():
     with get_connection() as conn:
