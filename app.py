@@ -5,7 +5,7 @@ from core import (
     get_trial_balance_long,
     get_balance_sheet_detail_totals,
     get_income_statement_summary,
-    apply_manual_entries,   # <- add this
+    apply_manual_entries,
 )
 
 
@@ -13,7 +13,7 @@ from core import (
 
 def view_trial_balance():
     df = get_trial_balance_long()
-    # totals like Streamlit metrics
+
     totals = df[["debit", "credit"]].sum()
     total_debit = float(totals["debit"])
     total_credit = float(totals["credit"])
@@ -27,13 +27,12 @@ def view_trial_balance():
         title="Debit balances by account",
     )
 
-    # Gradio Dataframe expects a plain pandas DataFrame
+ 
     return df, total_debit, total_credit, fig
 
 
 def view_balance_sheet():
     detail, totals = get_balance_sheet_detail_totals()
-    # first row has the totals
     row = totals.iloc[0]
     total_assets = float(row["total_assets"])
     total_liab_plus_eq = float(row["total_liabilities"] + row["total_equity"])
@@ -53,7 +52,7 @@ def view_balance_sheet():
 def view_income_statement():
     df = get_income_statement_summary()
     if df.empty:
-        # Keep shapes consistent; Gradio still needs outputs
+       
         return df, 0.0, 0.0, 0.0
 
     row = df.iloc[0]
@@ -72,8 +71,7 @@ with gr.Blocks(title="Accounting Statements Dashboard") as demo:
         Trial Balance, Balance Sheet, and Income Statement computed from SQLite.
         """
     )
-
-    # Top row: reseed button like Streamlit
+    
     with gr.Row():
         init_btn = gr.Button("Re-seed sample data", variant="primary")
         init_msg = gr.Markdown()
@@ -155,7 +153,7 @@ with gr.Blocks(title="Accounting Statements Dashboard") as demo:
             """
         )
 
-        # Default accounts: rows as lists so Gradio shows them correctly
+        # Default accounts
         default_accounts = [
             [1, "Cash", "Asset"],
             [2, "Accounts Receivable", "Asset"],
